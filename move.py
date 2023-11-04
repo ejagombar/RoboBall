@@ -9,6 +9,11 @@ p = printcore('/dev/ttyUSB0', 115200)
 
 # startprint silently exits if not connected yet print("Connecting...")
 
+
+def kickFront():
+    p.send("G0 E00")
+
+
 print("Connecting...")
 while not p.online:
     time.sleep(0.1)
@@ -21,12 +26,17 @@ print("Turning off Fans")
 # this will send M105 immediately, ahead of the rest of the print
 # p.send_now("M105")
 
+p.send("M502")
 p.send("G28")
-p.send("M203 E5000 Z5000 X500 Y500")
 p.send("M204 T5000 P5000 R5000 S5000")
-p.send("M92 X180 Y180")
-# X max is 40
-# Y max is 35
+p.send("M203 E5000 Z5000 X5000 Y5000")
+p.send("M201 E5000 Z5000 X5000 Y5000")
+p.send("M92 X180 Y180 E300 Z300")
+p.send("M220 300")
+p.send("G0 E00")
+p.send("G0 X30")
+p.send("G0 Y30")
+p.send("G0 Z30")
 
 
 p.pause()  # use these to pause/resume the current print
