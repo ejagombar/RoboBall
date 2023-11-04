@@ -15,10 +15,20 @@ while not p.online:
 
 print("Connected")
 
+print("Turning off Fans")
+# p.send_now("M107")
 # If you need to interact with the printer:
 # this will send M105 immediately, ahead of the rest of the print
-p.send_now("M105")
-p.send_now("G28")
+# p.send_now("M105")
+
+p.send("G28")
+p.send("M203 E5000 Z5000 X500 Y500")
+p.send("M204 T5000 P5000 R5000 S5000")
+p.send("M92 X180 Y180")
+# X max is 40
+# Y max is 35
+
+
 p.pause()  # use these to pause/resume the current print
 p.resume()
 p.disconnect()  # this is how you disconnect from the printer once you are done
