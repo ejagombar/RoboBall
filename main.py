@@ -3,7 +3,7 @@
 # Press ⌃R to execute it or replace it with your code.
 import cv2
 import numpy as np
-
+import move
 
 def opencv_track_white_ball():
     cam = cv2.VideoCapture(0)
@@ -16,6 +16,8 @@ def opencv_track_white_ball():
     if not cam.isOpened():
         print('Cannot open camera')
         return;
+
+    move.setup()
 
     while (True):
         lowerBound = np.array([0, 0, 150])  # Lower HSV values
@@ -60,6 +62,14 @@ def opencv_track_white_ball():
         average_y = total_y / total_points
 
         print("Average Point (X, Y): ({}, {})".format(average_x, average_y))
+        if(average_y != 0 and average_x != 0):
+            move.move(average_y // 2.2, average_y // 2.2)
+            if(average_x > 120):
+                move.kickFront()
+            else:
+                move.kickBack()
+        else:
+            move.move(50, 50)
 
         cv2.imshow("hsv version", imgHSV)
         cv2.imshow("blurry", blurred_image)
