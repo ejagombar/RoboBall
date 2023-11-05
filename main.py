@@ -63,7 +63,12 @@ def opencv_track_white_ball():
 
         print("Average Point (X, Y): ({}, {})".format(average_x, average_y))
         if(average_y != 0 and average_x != 0):
-            move.move(average_y // 2.2, average_y // 2.2)
+            average_y /= 2.2
+            if(average_y < 33):
+                average_y += 33
+            if(average_y > 66):
+                average_y -= 33
+            move.move(average_y, average_y)
             if(average_x > 120):
                 move.kickFront()
             else:
