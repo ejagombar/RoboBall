@@ -9,12 +9,19 @@ p = printcore('/dev/ttyUSB0', 115200)
 
 # startprint silently exits if not connected yet print("Connecting...")
 XMAX = 40
-YMAX = 35
+YMAX = 32
 
 
 def kickFront():
-    p.send("G0 E00")
-    p.send("G0 E01")
+    p.send("G0 E02")
+    p.send("G04 P10")
+    p.send("G0 E-2")
+    p.send("G04 P10")
+    p.send("G0 E0")
+
+
+def kickBack():
+    p.send("G0 Z18")
 
 
 print("Connecting...")
@@ -37,20 +44,32 @@ p.send("M201 E5000 Z5000 X5000 Y5000")
 p.send("M92 X180 Y180 E300 Z200")
 p.send("M220 S200")
 
-p.send("G0 Z0")
+p.send("G0 Z2")
 p.send("G0 E0")
 
 p.send("G0 X"+str(XMAX//2))
 p.send("G0 Y"+str(YMAX//2))
 
-print("Disable Stepper Motors. Set Position!")
-p.send("M18")
-time.sleep(3)
-print("Renabling Soon...")
-time.sleep(1)
-p.send("M17")
-print("Stepper Motors Re-enabled")
+# Fan On
+p.send("M106 S255")
+p.send("G04 S1")
+p.send("M107")
+p.send("G04 S1")
 
+p.send("M18")
+p.send("G04 S4")
+p.send("M17")
+
+kickFront()
+p.send("G04 S1")
+
+i = 0
+while 1:
+    i = i + 1
+    p.send("G0 X" + str(i % XMAX))
+
+    p.send("G0 Y" + str(i % YMAX))
+    time.sleep(0.01)
 
 p.pause()  # use these to pause/resume the current print
 p.resume()
