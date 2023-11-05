@@ -74,8 +74,8 @@ def move(front, back):
         back = 0
 
     front = round((front/100) * XMAX)
-    back = round((back/100) * XMAX)
-    
+    back = round((back/100) * YMAX)
+
     p.send("G0 X" + str(front) + " Y" + str(back))
 
 # i = 0
