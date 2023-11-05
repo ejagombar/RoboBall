@@ -6,7 +6,7 @@ import numpy as np
 
 
 def opencv_track_white_ball():
-    cam = cv2.VideoCapture(1)
+    cam = cv2.VideoCapture(0)
 
     print('cam has image : %s' % cam.read()[0])
 
@@ -15,12 +15,13 @@ def opencv_track_white_ball():
 
     if not cam.isOpened():
         print('Cannot open camera')
+        return;
 
     while (True):
         lowerBound = np.array([0, 0, 150])  # Lower HSV values
         upperBound = np.array([180, 55, 200])  # Upper HSV values
         ret, img = cam.read()
-        img = cv2.resize(img, (340, 220))
+        img = cv2.resize(img, (340, 220))[0: 220, 25: -40]
         imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         ksize = (5, 5)
         blurred_image = cv2.GaussianBlur(imgHSV, ksize, 0)
@@ -60,22 +61,24 @@ def opencv_track_white_ball():
 
         print("Average Point (X, Y): ({}, {})".format(average_x, average_y))
 
-        cv2.imshow("cam", img)
         cv2.imshow("hsv version", imgHSV)
         cv2.imshow("blurry", blurred_image)
         cv2.imshow("mask", mask2)
         cv2.imshow("maskOpen", maskOpen)
         cv2.imshow("maskClose", maskClose)
+        cv2.imshow("cam", img)
 
-        playerGoalPostLeft = (261.8181818181818, 128.6)
-        playerGoalPostRight = (265.0, 79.5)
+
+
+        #playerGoalPostLeft = (261.8181818181818, 128.6)
+        #playerGoalPostRight = (265.0, 79.5)
 
         # Calculate the slope (m) of the line
-        m = (playerGoalPostRight[1] - playerGoalPostLeft[1]) / \
-            (playerGoalPostRight[0] - playerGoalPostLeft[0])
+        #m = (playerGoalPostRight[1] - playerGoalPostLeft[1]) / \
+          #E  (playerGoalPostRight[0] - playerGoalPostLeft[0])
 
-        if average_y - playerGoalPostLeft[1] >= m * (average_x - playerGoalPostLeft[0]):
-            print("GOALGOALGOALGOAL COMPUTER GOT GOAL.")
+        #if average_y - playerGoalPostLeft[1] >= m * (average_x - playerGoalPostLeft[0]):
+         #   print("GOALGOALGOALGOAL COMPUTER GOT GOAL.")
 
         if cv2.waitKey(10) & 0xFF == ord('q'):
             break
