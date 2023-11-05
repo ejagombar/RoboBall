@@ -53,8 +53,10 @@ def setup():
 
 def userCalibrate():
     p.send("M18")
+    p.send("M106 S255")
     p.send("G04 S4")
     p.send("M17")
+    p.send("M107")
 
 def turnOnLight(seconds):
     p.send("M106 S255")
