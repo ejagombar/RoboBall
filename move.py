@@ -1,6 +1,8 @@
-from printrun.printcore import printcore
 # from printrun import gcoder
 import time
+
+from printrun.printcore import printcore
+
 # or p.printcore('COM3',115200) on Windows
 p = printcore('/dev/ttyUSB0', 115200)
 p = printcore('/dev/tty.usbserial-140', 115200)
@@ -59,7 +61,7 @@ def turnOnLight(seconds):
     p.send("G04 S" + str(seconds))
     p.send("M107")
 
-def move(front, back):
+def moveBoth(front, back):
     if front > 100:
         front = 100
     if back > 100:
@@ -74,14 +76,21 @@ def move(front, back):
 
     p.send("G0 X" + str(front) + " Y" + str(back))
 
-# i = 0
-# while 1:
-#     i = i + 1
-#     p.send("G0 X" + str(i % XMAX))
+def moveFront(val):
+    if val > 100:
+        val = 100
+    if val < 0:
+        val = 0
+    val = round((val/100) * XMAX)
 
-#     p.send("G0 Y" + str(i % YMAX))
-#     time.sleep(0.01)
+    p.send("G0 X" + str(val))
 
-# p.pause()  # use these to pause/resume the current print
-# p.resume()
-# p.disconnect()  # this is how you disconnect from the printer once you are done
+def moveBack(val):
+    if val > 100:
+        val = 100
+    if val < 0:
+        val = 0
+
+    val = round((val/100) * YMAX)
+
+    p.send("G0 Y" + str(val))
