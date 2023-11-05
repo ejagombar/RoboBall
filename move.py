@@ -63,6 +63,21 @@ def setup():
 # kickFront()
 # p.send("G04 S1")
 
+def move(front, back):
+    if front > 100:
+        front = 100
+    if back > 100:
+        back = 100
+    if front < 0:
+        front = 0
+    if back < 0:
+        back = 0
+
+    front = round((front/100) * XMAX)
+    back = round((back/100) * XMAX)
+    
+    p.send("G0 X" + str(front) + " Y" + str(back))
+
 # i = 0
 # while 1:
 #     i = i + 1
