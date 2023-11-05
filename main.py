@@ -6,7 +6,7 @@ import numpy as np
 
 
 def opencv_track_white_ball():
-    cam = cv2.VideoCapture(4)
+    cam = cv2.VideoCapture(1)
 
     print('cam has image : %s' % cam.read()[0])
 
@@ -74,11 +74,7 @@ def opencv_track_white_ball():
         m = (playerGoalPostRight[1] - playerGoalPostLeft[1]) / \
             (playerGoalPostRight[0] - playerGoalPostLeft[0])
 
-        # Define the point you want to check
-        # Replace x and y with the coordinates of your point
-        test_point = (x, y)
-
-        if test_point[1] - playerGoalPostLeft[1] >= m * (test_point[0] - playerGoalPostLeft[0]):
+        if average_y - playerGoalPostLeft[1] >= m * (average_x - playerGoalPostLeft[0]):
             print("GOALGOALGOALGOAL COMPUTER GOT GOAL.")
 
         if cv2.waitKey(10) & 0xFF == ord('q'):
