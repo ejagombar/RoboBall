@@ -21,7 +21,11 @@ def kickFront():
 
 
 def kickBack():
-    p.send("G0 Z18")
+    p.send("G0 Z02")
+    p.send("G04 P10")
+    p.send("G0 Z-2")
+    p.send("G04 P10")
+    p.send("G0 Z0")
 
 def setup():
     print("Connecting...")
@@ -29,12 +33,6 @@ def setup():
         time.sleep(0.1)
 
     print("Connected")
-
-    print("Turning off Fans")
-    # p.send_now("M107")
-    # If you need to interact with the printer:
-    # this will send M105 immediately, ahead of the rest of the print
-    # p.send_now("M105")
 
     p.send("M502")
     p.send("G28 X Y")
@@ -50,18 +48,15 @@ def setup():
     p.send("G0 X"+str(XMAX//2))
     p.send("G0 Y"+str(YMAX//2))
 
-# Fan On
-# p.send("M106 S255")
-# p.send("G04 S1")
-# p.send("M107")
-# p.send("G04 S1")
+def userCalibrate():
+    p.send("M18")
+    p.send("G04 S4")
+    p.send("M17")
 
-# p.send("M18")
-# p.send("G04 S4")
-# p.send("M17")
-
-# kickFront()
-# p.send("G04 S1")
+def turnOnLight(seconds):
+    p.send("M106 S255")
+    p.send("G04 S" + str(seconds))
+    p.send("M107")
 
 def move(front, back):
     if front > 100:
