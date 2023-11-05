@@ -3,6 +3,7 @@ from printrun.printcore import printcore
 import time
 # or p.printcore('COM3',115200) on Windows
 p = printcore('/dev/ttyUSB0', 115200)
+p = printcore('/dev/tty.usbserial-140', 115200)
 # or pass in your own array of gcode lines instead of reading from a file
 # gcode = [i.strip() for i in open('filename.gcode')]
 # gcode = gcoder.LightGCode(gcode)
